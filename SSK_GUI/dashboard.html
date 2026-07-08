@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSK Gestión — Dashboard</title>
+    <link rel="stylesheet" href="css/ssk.css">
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="main">
+        <div class="topbar">
+            <h2>Dashboard</h2>
+            <div class="usuario-info">
+                <div class="avatar">CM</div>
+                <span>Carlos Mora — Gerente General</span>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <!-- Tarjetas resumen -->
+            <div class="cards-resumen">
+                <div class="card-r">
+                    <div class="icono-card azul"><i class="fas fa-users"></i></div>
+                    <div class="dato">
+                        <h3>14</h3>
+                        <p>Usuarios activos</p>
+                    </div>
+                </div>
+                <div class="card-r">
+                    <div class="icono-card verde"><i class="fas fa-box"></i></div>
+                    <div class="dato">
+                        <h3>12</h3>
+                        <p>Productos en catálogo</p>
+                    </div>
+                </div>
+                <div class="card-r">
+                    <div class="icono-card naranja"><i class="fas fa-shopping-cart"></i></div>
+                    <div class="dato">
+                        <h3>15</h3>
+                        <p>Pedidos este mes</p>
+                    </div>
+                </div>
+                <div class="card-r">
+                    <div class="icono-card rojo"><i class="fas fa-credit-card"></i></div>
+                    <div class="dato">
+                        <h3>₡552.400</h3>
+                        <p>Total facturado</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Últimos pedidos -->
+            <div class="tabla-card">
+                <div class="tabla-header">
+                    <h3>Últimos pedidos</h3>
+                    <a href="pedidos.html"><button class="btn btn-outline btn-sm">Ver todos</button></a>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Cliente</th>
+                            <th>Producto</th>
+                            <th>Fecha</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1001</td>
+                            <td>Mario Fernández</td>
+                            <td>Jabón líquido industrial 5L</td>
+                            <td>03/01/2025</td>
+                            <td>₡85.000</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                        </tr>
+                        <tr>
+                            <td>1002</td>
+                            <td>Patricia Solano</td>
+                            <td>Guantes de látex caja x100</td>
+                            <td>07/01/2025</td>
+                            <td>₡22.500</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                        </tr>
+                        <tr>
+                            <td>1003</td>
+                            <td>Roberto Jiménez</td>
+                            <td>Desinfectante multiusos 1L</td>
+                            <td>10/01/2025</td>
+                            <td>₡9.600</td>
+                            <td><span class="badge badge-pendiente">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td>1004</td>
+                            <td>Valeria Chaves</td>
+                            <td>Papel higiénico industrial x12</td>
+                            <td>14/01/2025</td>
+                            <td>₡54.400</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                        </tr>
+                        <tr>
+                            <td>1005</td>
+                            <td>Diego Rojas</td>
+                            <td>Bolsas de basura negras x100</td>
+                            <td>17/01/2025</td>
+                            <td>₡78.000</td>
+                            <td><span class="badge badge-pendiente">Pendiente</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/sidebar.js"></script>
+    <script>
+        document.getElementById('sidebar-container').innerHTML = cargarSidebar('dashboard.html');
+    </script>
+</body>
+</html>

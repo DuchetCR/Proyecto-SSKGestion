@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSK Gestión — Iniciar sesión</title>
+    <link rel="stylesheet" href="css/stylelogin.css">
+</head>
+<body>
+
+    <div class="panel-izq">
+        <div class="logo">SSK<span>.</span></div>
+        <p class="subtitulo">Sistema de Gestión Comercial<br>Food Service · Costa Rica</p>
+
+        <div class="feature">
+            <i class="fas fa-box ico"></i>
+            <div>
+                <h4>Control de inventario</h4>
+                <p>Stock actualizado en tiempo real</p>
+            </div>
+        </div>
+        <div class="feature">
+            <i class="fas fa-file-invoice ico"></i>
+            <div>
+                <h4>Facturación integrada</h4>
+                <p>Pedidos, pagos y facturas en un solo lugar</p>
+            </div>
+        </div>
+        <div class="feature">
+            <i class="fas fa-truck ico"></i>
+            <div>
+                <h4>Seguimiento de entregas</h4>
+                <p>Estado de cada entrega en tiempo real</p>
+            </div>
+        </div>
+        <div class="feature">
+            <i class="fas fa-users ico"></i>
+            <div>
+                <h4>Gestión de clientes</h4>
+                <p>Cartera y clientes convencionales</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-der">
+        <div class="login-box">
+            <h2>Bienvenido</h2>
+            <p class="desc">Ingresá tus credenciales para continuar</p>
+
+            <div class="error-msg" id="errorMsg">
+                Usuario o contraseña incorrectos. Intentá de nuevo.
+            </div>
+
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" id="usuario" placeholder="Ej: carlos.mora">
+            </div>
+
+            <div class="form-group">
+                <label for="clave">Contraseña</label>
+                <input type="password" id="clave" placeholder="••••••••">
+            </div>
+
+            <button class="btn-login" onclick="iniciarSesion()">Iniciar sesión</button>
+
+            <div class="login-footer">
+                SSK Distribución © 2025 — SC-504
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function iniciarSesion() {
+            const usuario = document.getElementById('usuario').value;
+            const clave   = document.getElementById('clave').value;
+            const error   = document.getElementById('errorMsg');
+
+            if (usuario === '' || clave === '') {
+                error.style.display = 'block';
+                error.textContent   = 'Por favor completá todos los campos.';
+                return;
+            }
+
+            // Credenciales de prueba (sin conexión a BD)
+            if (usuario === 'admin' && clave === '1234') {
+                window.location.href = 'dashboard.html';
+            } else {
+                error.style.display = 'block';
+                error.textContent   = 'Usuario o contraseña incorrectos.';
+            }
+        }
+
+        // Enter para iniciar sesión
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') iniciarSesion();
+        });
+    </script>
+
+</body>
+</html>

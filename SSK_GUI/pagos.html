@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSK Gestión — Pagos</title>
+    <link rel="stylesheet" href="css/ssk.css">
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="main">
+        <div class="topbar">
+            <h2>Pagos</h2>
+            <div class="usuario-info">
+                <div class="avatar">CM</div>
+                <span>Carlos Mora — Gerente General</span>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <!-- Tarjetas resumen -->
+            <div class="cards-resumen" style="grid-template-columns: repeat(3,1fr); margin-bottom:24px;">
+                <div class="card-r">
+                    <div class="icono-card verde"><i class="fas fa-money-bill-wave"></i></div>
+                    <div class="dato">
+                        <h3>₡188.800</h3>
+                        <p>Efectivo</p>
+                    </div>
+                </div>
+                <div class="card-r">
+                    <div class="icono-card azul"><i class="fas fa-mobile-alt"></i></div>
+                    <div class="dato">
+                        <h3>₡260.500</h3>
+                        <p>SINPE Móvil</p>
+                    </div>
+                </div>
+                <div class="card-r">
+                    <div class="icono-card naranja"><i class="fas fa-university"></i></div>
+                    <div class="dato">
+                        <h3>₡103.100</h3>
+                        <p>Transferencia</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="barra-busqueda">
+                <input type="text" placeholder="Buscar usuario...">
+                <button class="btn btn-primary" onclick="mostrarFormulario()"><i class="fas fa-plus"></i> Registrar pago</button>
+            </div>
+
+            <!-- Formulario nuevo pago -->
+            <div id="formulario" style="display:none; margin-bottom:24px;">
+                <div class="form-card">
+                    <h3>Registrar pago</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Método de pago</label>
+                            <select>
+                                <option>Efectivo</option>
+                                <option>Transferencia</option>
+                                <option>SINPE Móvil</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Monto (₡)</label>
+                            <input type="number" placeholder="Ej: 85000">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-success">Registrar</button>
+                        <button class="btn btn-outline" onclick="ocultarFormulario()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla pagos -->
+            <div class="tabla-card">
+                <div class="tabla-header">
+                    <h3>Historial de pagos</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Método de pago</th>
+                            <th>Monto</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td><td>SINPE Móvil</td>
+                            <td>₡85.000</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td><td>SINPE Móvil</td>
+                            <td>₡22.500</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td><td>Efectivo</td>
+                            <td>₡9.600</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td><td>Transferencia</td>
+                            <td>₡54.400</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td><td>Efectivo</td>
+                            <td>₡78.000</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/sidebar.js"></script>
+    <script>
+        document.getElementById('sidebar-container').innerHTML = cargarSidebar('pagos.html');
+        function mostrarFormulario()  { document.getElementById('formulario').style.display = 'block'; }
+        function ocultarFormulario() { document.getElementById('formulario').style.display = 'none';  }
+    </script>
+</body>
+</html>

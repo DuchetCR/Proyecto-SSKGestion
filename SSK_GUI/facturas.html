@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SSK Gestión — Facturas</title>
+    <link rel="stylesheet" href="css/ssk.css">
+</head>
+<body>
+
+    <div id="sidebar-container"></div>
+
+    <div class="main">
+        <div class="topbar">
+            <h2>Facturas</h2>
+            <div class="usuario-info">
+                <div class="avatar">CM</div>
+                <span>Carlos Mora — Gerente General</span>
+            </div>
+        </div>
+
+        <div class="content">
+
+            <div class="barra-busqueda">
+                <input type="text" placeholder="Buscar usuario...">
+                <button class="btn btn-primary" onclick="mostrarFormulario()"><i class="fas fa-plus"></i> Nueva factura</button>
+            </div>
+
+            <!-- Formulario nueva factura -->
+            <div id="formulario" style="display:none; margin-bottom:24px;">
+                <div class="form-card">
+                    <h3>Nueva factura</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Cliente</label>
+                            <select>
+                                <option>Mario Fernández Castro</option>
+                                <option>Patricia Solano Arias</option>
+                                <option>Roberto Jiménez Vega</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha de pago</label>
+                            <input type="date">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Total (₡)</label>
+                            <input type="number" placeholder="Ej: 85000">
+                        </div>
+                        <div class="form-group">
+                            <label>Estado</label>
+                            <select>
+                                <option>Completado</option>
+                                <option>Pendiente</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary">Guardar</button>
+                        <button class="btn btn-outline" onclick="ocultarFormulario()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla facturas -->
+            <div class="tabla-card">
+                <div class="tabla-header">
+                    <h3>Historial de facturas</h3>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente</th>
+                            <th>Fecha de pago</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td><td>Mario Fernández</td>
+                            <td>02/01/2025</td><td>₡85.000</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td><td>Patricia Solano</td>
+                            <td>06/01/2025</td><td>₡22.500</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td><td>Roberto Jiménez</td>
+                            <td>11/01/2025</td><td>₡9.600</td>
+                            <td><span class="badge badge-pendiente">Pendiente</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td><td>Valeria Chaves</td>
+                            <td>16/01/2025</td><td>₡54.400</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td><td>Diego Rojas</td>
+                            <td>21/01/2025</td><td>₡78.000</td>
+                            <td><span class="badge badge-completado">Completado</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>6</td><td>Daniela Ulate</td>
+                            <td>26/01/2025</td><td>₡42.000</td>
+                            <td><span class="badge badge-pendiente">Pendiente</span></td>
+                            <td>
+                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/sidebar.js"></script>
+    <script>
+        document.getElementById('sidebar-container').innerHTML = cargarSidebar('facturas.html');
+        function mostrarFormulario()  { document.getElementById('formulario').style.display = 'block'; }
+        function ocultarFormulario() { document.getElementById('formulario').style.display = 'none';  }
+    </script>
+</body>
+</html>
