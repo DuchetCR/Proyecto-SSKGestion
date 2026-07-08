@@ -1,2 +1,11 @@
-git rm --cached .DS_Store
-git rm --cached SSK_GUI/.DS_Store
+# macOS
+.DS_Store
+
+# Visual Studio Code
+.vscode/
+
+# Logs
+*.log
+
+# Archivos temporales
+*.tmp
