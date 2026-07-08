@@ -1,0 +1,2 @@
+git rm --cached .DS_Store
+git rm --cached SSK_GUI/.DS_Store
