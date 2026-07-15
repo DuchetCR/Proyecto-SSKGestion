@@ -9,3 +9,8 @@
 
 # Archivos temporales
 *.tmp
+
+node_modules/
+.env
+wallet/
+npm-debug.log*
