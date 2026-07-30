@@ -27,65 +27,198 @@
                 <button class="btn btn-primary" onclick="mostrarFormulario()"><i class="fas fa-plus"></i> Nuevo usuario</button>
             </div>
 
-            <!-- Formulario nuevo usuario (oculto por defecto) -->
+            <!-- Formulario nuevo usuario -->
             <div id="formulario" style="display:none; margin-bottom:24px;">
                 <div class="form-card">
                     <h3>Nuevo usuario</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Nombre</label>
-                            <input type="text" placeholder="Ej: Carlos">
+
+                    <form id="formUsuario">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+
+                                <input
+                                    type="text"
+                                    id="nombre"
+                                    name="nombre"
+                                    placeholder="Ej: Carlos"
+                                    maxlength="100"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="primerApellido">
+                                    Primer apellido
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="primerApellido"
+                                    name="primerApellido"
+                                    placeholder="Ej: Mora"
+                                    maxlength="100"
+                                    required
+                                >
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Primer apellido</label>
-                            <input type="text" placeholder="Ej: Mora">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="segundoApellido">
+                                    Segundo apellido
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="segundoApellido"
+                                    name="segundoApellido"
+                                    placeholder="Ej: Jiménez"
+                                    maxlength="100"
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="tipoUsuario">
+                                    Tipo de usuario
+                                </label>
+
+                                <select
+                                    id="tipoUsuario"
+                                    name="tipoUsuario"
+                                    required
+                                >
+                                    <option value="">
+                                        Seleccione un tipo
+                                    </option>
+
+                                    <option value="1">
+                                        Administrador
+                                    </option>
+
+                                    <option value="2">
+                                        Cliente Cartera
+                                    </option>
+
+                                    <option value="3">
+                                        Cliente Convencional
+                                    </option>
+
+                                    <option value="4">
+                                        Empleado
+                                    </option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Segundo apellido</label>
-                            <input type="text" placeholder="Ej: Jiménez">
+
+                        <div
+                            class="form-row"
+                            id="camposEmpleado"
+                            style="display:none;"
+                        >
+                            <div class="form-group">
+                                <label for="puesto">Puesto</label>
+
+                                <select id="puesto" name="puesto">
+                                    <option value="">
+                                        Seleccione un puesto
+                                    </option>
+
+                                    <option value="1">
+                                        Gerente General
+                                    </option>
+
+                                    <option value="2">
+                                        Encargado de Facturación
+                                    </option>
+
+                                    <option value="3">
+                                        Repartidor
+                                    </option>
+
+                                    <option value="4">
+                                        Encargado de Pedidos
+                                    </option>
+
+                                    <option value="5">
+                                        Asistente Administrativo
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="salario">
+                                    Salario (₡)
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="salario"
+                                    name="salario"
+                                    placeholder="Ej: 650000"
+                                    min="0"
+                                    step="0.01"
+                                >
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label>Tipo de usuario</label>
-                            <select>
-                                <option>Administrador</option>
-                                <option>Cliente Cartera</option>
-                                <option>Cliente Convencional</option>
-                                <option>Empleado</option>
-                            </select>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="correo">Correo</label>
+
+                                <input
+                                    type="email"
+                                    id="correo"
+                                    name="correo"
+                                    placeholder="Ej: carlos.mora@ssk.cr"
+                                    maxlength="200"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="telefono">Teléfono</label>
+
+                                <input
+                                    type="text"
+                                    id="telefono"
+                                    name="telefono"
+                                    placeholder="Ej: 88001100"
+                                    maxlength="20"
+                                    required
+                                >
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Puesto</label>
-                            <select>
-                                <option>Gerente General</option>
-                                <option>Encargado de Facturación</option>
-                                <option>Repartidor</option>
-                                <option>Encargado de Pedidos</option>
-                                <option>Asistente Administrativo</option>
-                            </select>
+
+                        <div
+                            id="mensajeUsuario"
+                            style="
+                                display:none;
+                                margin-bottom:16px;
+                                padding:12px;
+                                border-radius:6px;
+                            "
+                        ></div>
+
+                        <div class="form-actions">
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                id="btnGuardarUsuario"
+                            >
+                                <i class="fas fa-save"></i>
+                                Guardar
+                            </button>
+
+                            <button
+                                type="button"
+                                class="btn btn-outline"
+                                onclick="ocultarFormulario()"
+                            >
+                                Cancelar
+                            </button>
                         </div>
-                        <div class="form-group">
-                            <label>Salario (₡)</label>
-                            <input type="number" placeholder="Ej: 650000">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Correo</label>
-                            <input type="email" placeholder="Ej: carlos.mora@ssk.cr">
-                        </div>
-                        <div class="form-group">
-                            <label>Teléfono</label>
-                            <input type="text" placeholder="Ej: 88001100">
-                        </div>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-primary">Guardar</button>
-                        <button class="btn btn-outline" onclick="ocultarFormulario()">Cancelar</button>
-                    </div>
+                    </form>
                 </div>
             </div>
 
@@ -106,67 +239,8 @@
                             <th>Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td><td>Carlos Mora Jiménez</td>
-                            <td>Empleado</td><td>Gerente General</td>
-                            <td>carlos.mora@ssk.cr</td>
-                            <td><span class="badge badge-activo">Activo</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2</td><td>Laura Ramírez Solano</td>
-                            <td>Empleado</td><td>Encargado de Facturación</td>
-                            <td>laura.ramirez@ssk.cr</td>
-                            <td><span class="badge badge-activo">Activo</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td><td>Andrés Vargas Rojas</td>
-                            <td>Empleado</td><td>Repartidor</td>
-                            <td>andres.vargas@ssk.cr</td>
-                            <td><span class="badge badge-activo">Activo</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td><td>Mario Fernández Castro</td>
-                            <td>Cliente Cartera</td><td>—</td>
-                            <td>mario.fdez@gmail.com</td>
-                            <td><span class="badge badge-activo">Activo</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td><td>Patricia Solano Arias</td>
-                            <td>Cliente Cartera</td><td>—</td>
-                            <td>patricia.solano@gmail.com</td>
-                            <td><span class="badge badge-activo">Activo</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>11</td><td>Jorge Badilla Salas</td>
-                            <td>Cliente Convencional</td><td>—</td>
-                            <td>donjorge@gmail.com</td>
-                            <td><span class="badge badge-inactivo">Inactivo</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
+                    <tbody id="tablaUsuarios">
+                        
                     </tbody>
                 </table>
             </div>
@@ -174,11 +248,46 @@
     </div>
 
     <script src="js/sidebar.js"></script>
-    <script>
-        document.getElementById('sidebar-container').innerHTML = cargarSidebar('usuarios.html');
 
-        function mostrarFormulario()  { document.getElementById('formulario').style.display = 'block'; }
-        function ocultarFormulario() { document.getElementById('formulario').style.display = 'none';  }
-    </script>
+<script>
+    document.getElementById(
+        "sidebar-container"
+    ).innerHTML = cargarSidebar("usuarios.html");
+
+    function mostrarFormulario() {
+        document.getElementById(
+            "formulario"
+        ).style.display = "block";
+    }
+
+    function ocultarFormulario() {
+        document.getElementById(
+            "formulario"
+        ).style.display = "none";
+
+        document.getElementById(
+            "formUsuario"
+        ).reset();
+
+        document.getElementById(
+            "camposEmpleado"
+        ).style.display = "none";
+
+        document.getElementById(
+            "puesto"
+        ).required = false;
+
+        document.getElementById(
+            "salario"
+        ).required = false;
+
+        document.getElementById(
+            "mensajeUsuario"
+        ).style.display = "none";
+    }
+</script>
+
+<script src="js/usuarios.js"></script>
+
 </body>
 </html>

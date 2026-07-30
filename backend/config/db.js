@@ -2,7 +2,7 @@ const oracledb = require("oracledb");
 const path = require("path");
 
 oracledb.outFormat = oracledb.OUT_FORMAT_OBJECT;
-oracledb.autoCommit = true;
+oracledb.autoCommit = false;
 
 const walletPath = path.resolve(__dirname, "../wallet");
 
