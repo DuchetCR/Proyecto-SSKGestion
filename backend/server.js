@@ -4,6 +4,7 @@ const path = require("path");
 require("dotenv").config();
 
 const usuariosRoutes = require("./routes/usuarios");
+const productosRoutes = require("./routes/productos");
 
 const {
     iniciarPool,
@@ -20,6 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/api/usuarios", usuariosRoutes);
+app.use("/api/productos", productosRoutes);
 
 
 const frontendPath = path.join(__dirname, "../SSK_GUI");
