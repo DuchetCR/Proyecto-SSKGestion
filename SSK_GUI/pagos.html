@@ -1,154 +1,425 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSK Gestión — Pagos</title>
-    <link rel="stylesheet" href="css/ssk.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        SSK Gestión — Pagos
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/ssk.css"
+    >
 </head>
+
 <body>
 
     <div id="sidebar-container"></div>
 
+
     <div class="main">
+
         <div class="topbar">
-            <h2>Pagos</h2>
+
+            <h2>
+                Pagos
+            </h2>
+
             <div class="usuario-info">
-                <div class="avatar">CM</div>
-                <span>Carlos Mora — Gerente General</span>
+
+                <div class="avatar">
+                    CM
+                </div>
+
+                <span>
+                    Carlos Mora — Gerente General
+                </span>
+
             </div>
+
         </div>
+
 
         <div class="content">
 
-            <!-- Tarjetas resumen -->
-            <div class="cards-resumen" style="grid-template-columns: repeat(3,1fr); margin-bottom:24px;">
+            <!-- Mensajes -->
+            <div
+                id="mensajePago"
+                style="display: none;"
+            ></div>
+
+
+            <!-- Resumen -->
+            <div
+                class="cards-resumen"
+                style="
+                    grid-template-columns:
+                        repeat(3, 1fr);
+                    margin-bottom: 24px;
+                "
+            >
+
                 <div class="card-r">
-                    <div class="icono-card verde"><i class="fas fa-money-bill-wave"></i></div>
-                    <div class="dato">
-                        <h3>₡188.800</h3>
-                        <p>Efectivo</p>
+
+                    <div class="icono-card verde">
+
+                        <i class="fas fa-money-bill-wave"></i>
+
                     </div>
+
+                    <div class="dato">
+
+                        <h3 id="totalEfectivo">
+                            ₡0
+                        </h3>
+
+                        <p>
+                            Efectivo
+                        </p>
+
+                    </div>
+
                 </div>
+
+
                 <div class="card-r">
-                    <div class="icono-card azul"><i class="fas fa-mobile-alt"></i></div>
-                    <div class="dato">
-                        <h3>₡260.500</h3>
-                        <p>SINPE Móvil</p>
+
+                    <div class="icono-card azul">
+
+                        <i class="fas fa-mobile-alt"></i>
+
                     </div>
+
+                    <div class="dato">
+
+                        <h3 id="totalSinpe">
+                            ₡0
+                        </h3>
+
+                        <p>
+                            SINPE Móvil
+                        </p>
+
+                    </div>
+
                 </div>
+
+
                 <div class="card-r">
-                    <div class="icono-card naranja"><i class="fas fa-university"></i></div>
-                    <div class="dato">
-                        <h3>₡103.100</h3>
-                        <p>Transferencia</p>
+
+                    <div class="icono-card naranja">
+
+                        <i class="fas fa-university"></i>
+
                     </div>
+
+                    <div class="dato">
+
+                        <h3 id="totalTransferencia">
+                            ₡0
+                        </h3>
+
+                        <p>
+                            Transferencia
+                        </p>
+
+                    </div>
+
                 </div>
+
             </div>
 
+
+            <!-- Buscar y registrar -->
             <div class="barra-busqueda">
-                <input type="text" placeholder="Buscar usuario...">
-                <button class="btn btn-primary" onclick="mostrarFormulario()"><i class="fas fa-plus"></i> Registrar pago</button>
+
+                <input
+                    id="buscarPago"
+                    type="text"
+                    placeholder="Buscar por pedido, cliente, producto o método..."
+                >
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="mostrarFormularioPago()"
+                >
+                    <i class="fas fa-plus"></i>
+                    Registrar pago
+                </button>
+
             </div>
 
-            <!-- Formulario nuevo pago -->
-            <div id="formulario" style="display:none; margin-bottom:24px;">
+
+            <!-- Formulario -->
+            <div
+                id="formularioPago"
+                style="
+                    display: none;
+                    margin-bottom: 24px;
+                "
+            >
+
                 <div class="form-card">
-                    <h3>Registrar pago</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Método de pago</label>
-                            <select>
-                                <option>Efectivo</option>
-                                <option>Transferencia</option>
-                                <option>SINPE Móvil</option>
-                            </select>
+
+                    <h3 id="tituloFormularioPago">
+                        Registrar pago
+                    </h3>
+
+
+                    <form id="formPago">
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="pedidoPago">
+                                    Pedido
+                                </label>
+
+                                <select
+                                    id="pedidoPago"
+                                    required
+                                >
+                                    <option value="">
+                                        Cargando pedidos...
+                                    </option>
+                                </select>
+
+                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label>Monto (₡)</label>
-                            <input type="number" placeholder="Ej: 85000">
+
+
+                        <!-- Información automática -->
+                        <div
+                            style="
+                                margin-bottom: 20px;
+                                padding: 15px;
+                                background: #f7f7f7;
+                                border-radius: 6px;
+                            "
+                        >
+
+                            <div
+                                style="
+                                    margin-bottom: 8px;
+                                "
+                            >
+                                <strong>
+                                    Cliente:
+                                </strong>
+
+                                <span id="clientePago">
+                                    —
+                                </span>
+                            </div>
+
+
+                            <div
+                                style="
+                                    margin-bottom: 8px;
+                                "
+                            >
+                                <strong>
+                                    Producto:
+                                </strong>
+
+                                <span id="productoPago">
+                                    —
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <strong>
+                                    Total del pedido:
+                                </strong>
+
+                                <span id="totalPedidoPago">
+                                    ₡0
+                                </span>
+                            </div>
+
                         </div>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-success">Registrar</button>
-                        <button class="btn btn-outline" onclick="ocultarFormulario()">Cancelar</button>
-                    </div>
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="metodoPago">
+                                    Método de pago
+                                </label>
+
+                                <select
+                                    id="metodoPago"
+                                    required
+                                >
+                                    <option value="">
+                                        Cargando métodos...
+                                    </option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="montoPago">
+                                    Monto (₡)
+                                </label>
+
+                                <input
+                                    id="montoPago"
+                                    type="number"
+                                    min="0.01"
+                                    step="0.01"
+                                    required
+                                    placeholder="Ej: 85000"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="estadoPago">
+                                    Estado
+                                </label>
+
+                                <select
+                                    id="estadoPago"
+                                    required
+                                >
+                                    <option value="3">
+                                        Pendiente
+                                    </option>
+
+                                    <option value="4">
+                                        Cancelado
+                                    </option>
+
+                                    <option
+                                        value="5"
+                                        selected
+                                    >
+                                        Completado
+                                    </option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                id="btnGuardarPago"
+                                type="submit"
+                                class="btn btn-success"
+                            >
+                                <i class="fas fa-save"></i>
+                                Registrar pago
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="btn btn-outline"
+                                onclick="ocultarFormularioPago()"
+                            >
+                                Cancelar
+                            </button>
+
+                        </div>
+
+                    </form>
+
                 </div>
+
             </div>
 
-            <!-- Tabla pagos -->
+
+            <!-- Tabla -->
             <div class="tabla-card">
+
                 <div class="tabla-header">
-                    <h3>Historial de pagos</h3>
+
+                    <h3>
+                        Historial de pagos
+                    </h3>
+
                 </div>
+
+
                 <table>
+
                     <thead>
+
                         <tr>
-                            <th>ID</th>
-                            <th>Método de pago</th>
+                            <th>ID pago</th>
+                            <th>Pedido</th>
+                            <th>Cliente</th>
+                            <th>Producto</th>
+                            <th>Método</th>
                             <th>Monto</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
+
                     </thead>
-                    <tbody>
+
+
+                    <tbody id="tablaPagos">
+
                         <tr>
-                            <td>1</td><td>SINPE Móvil</td>
-                            <td>₡85.000</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            <td colspan="8">
+                                Cargando pagos...
                             </td>
                         </tr>
-                        <tr>
-                            <td>2</td><td>SINPE Móvil</td>
-                            <td>₡22.500</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td><td>Efectivo</td>
-                            <td>₡9.600</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td><td>Transferencia</td>
-                            <td>₡54.400</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td><td>Efectivo</td>
-                            <td>₡78.000</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
+
                     </tbody>
+
                 </table>
+
             </div>
+
         </div>
+
     </div>
 
+
     <script src="js/sidebar.js"></script>
+
     <script>
-        document.getElementById('sidebar-container').innerHTML = cargarSidebar('pagos.html');
-        function mostrarFormulario()  { document.getElementById('formulario').style.display = 'block'; }
-        function ocultarFormulario() { document.getElementById('formulario').style.display = 'none';  }
+        document.getElementById(
+            "sidebar-container"
+        ).innerHTML =
+            cargarSidebar(
+                "pagos.html"
+            );
     </script>
+
+    <script src="js/pagos.js"></script>
+
 </body>
+
 </html>

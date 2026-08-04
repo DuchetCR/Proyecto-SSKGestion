@@ -1,160 +1,335 @@
-placeholder <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSK Gestión — Entregas</title>
-    <link rel="stylesheet" href="css/ssk.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        SSK Gestión — Entregas
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/ssk.css"
+    >
 </head>
+
 <body>
 
     <div id="sidebar-container"></div>
 
+
     <div class="main">
+
         <div class="topbar">
-            <h2>Entregas</h2>
+
+            <h2>
+                Entregas
+            </h2>
+
             <div class="usuario-info">
-                <div class="avatar">CM</div>
-                <span>Carlos Mora — Gerente General</span>
+
+                <div class="avatar">
+                    CM
+                </div>
+
+                <span>
+                    Carlos Mora — Gerente General
+                </span>
+
             </div>
+
         </div>
+
 
         <div class="content">
 
+            <!-- Mensajes de éxito o error -->
+            <div
+                id="mensajeEntrega"
+                style="display: none;"
+            ></div>
+
+
+            <!-- Buscar y crear entrega -->
             <div class="barra-busqueda">
-                <input type="text" placeholder="Buscar usuario...">
-                <button class="btn btn-primary" onclick="mostrarFormulario()"><i class="fas fa-plus"></i> Nueva entrega</button>
+
+                <input
+                    id="buscarEntrega"
+                    type="text"
+                    placeholder="Buscar entrega..."
+                >
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="mostrarFormularioEntrega()"
+                >
+                    <i class="fas fa-plus"></i>
+                    Nueva entrega
+                </button>
+
             </div>
 
-            <!-- Formulario nueva entrega -->
-            <div id="formulario" style="display:none; margin-bottom:24px;">
+
+            <!-- Formulario -->
+            <div
+                id="formularioEntrega"
+                style="
+                    display: none;
+                    margin-bottom: 24px;
+                "
+            >
+
                 <div class="form-card">
-                    <h3>Nueva entrega</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Pedido</label>
-                            <select>
-                                <option>Pedido #3 — Roberto Jiménez</option>
-                                <option>Pedido #5 — Diego Rojas</option>
-                            </select>
+
+                    <h3 id="tituloFormularioEntrega">
+                        Nueva entrega
+                    </h3>
+
+
+                    <form id="formEntrega">
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="pedidoEntrega">
+                                    Pedido
+                                </label>
+
+                                <select
+                                    id="pedidoEntrega"
+                                    required
+                                >
+                                    <option value="">
+                                        Cargando pedidos...
+                                    </option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="repartidorEntrega">
+                                    Repartidor
+                                </label>
+
+                                <select
+                                    id="repartidorEntrega"
+                                    required
+                                >
+                                    <option value="">
+                                        Cargando repartidores...
+                                    </option>
+                                </select>
+
+                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label>Repartidor</label>
-                            <select>
-                                <option>Andrés Vargas Rojas</option>
-                            </select>
+
+
+                        <!-- Información automática -->
+                        <div
+                            style="
+                                margin-bottom: 20px;
+                                padding: 15px;
+                                background: #f7f7f7;
+                                border-radius: 6px;
+                            "
+                        >
+
+                            <div
+                                style="
+                                    margin-bottom: 8px;
+                                "
+                            >
+                                <strong>
+                                    Cliente:
+                                </strong>
+
+                                <span id="clienteEntrega">
+                                    —
+                                </span>
+                            </div>
+
+
+                            <div
+                                style="
+                                    margin-bottom: 8px;
+                                "
+                            >
+                                <strong>
+                                    Producto:
+                                </strong>
+
+                                <span id="productoEntrega">
+                                    —
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <strong>
+                                    Dirección:
+                                </strong>
+
+                                <span id="direccionEntrega">
+                                    —
+                                </span>
+                            </div>
+
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Fecha de entrega</label>
-                            <input type="date">
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="fechaEntrega">
+                                    Fecha de entrega
+                                </label>
+
+                                <input
+                                    id="fechaEntrega"
+                                    type="date"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="estadoEntrega">
+                                    Estado
+                                </label>
+
+                                <select
+                                    id="estadoEntrega"
+                                    required
+                                >
+                                    <option value="3">
+                                        Pendiente
+                                    </option>
+
+                                    <option value="4">
+                                        Cancelado
+                                    </option>
+
+                                    <option value="5">
+                                        Completado
+                                    </option>
+                                </select>
+
+                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label>Estado</label>
-                            <select>
-                                <option>Pendiente</option>
-                                <option>Completado</option>
-                            </select>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                id="btnGuardarEntrega"
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                <i class="fas fa-save"></i>
+                                Guardar entrega
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="btn btn-outline"
+                                onclick="ocultarFormularioEntrega()"
+                            >
+                                Cancelar
+                            </button>
+
                         </div>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-primary">Guardar</button>
-                        <button class="btn btn-outline" onclick="ocultarFormulario()">Cancelar</button>
-                    </div>
+
+                    </form>
+
                 </div>
+
             </div>
 
-            <!-- Tabla entregas -->
+
+            <!-- Tabla -->
             <div class="tabla-card">
+
                 <div class="tabla-header">
-                    <h3>Lista de entregas</h3>
+
+                    <h3>
+                        Lista de entregas
+                    </h3>
+
                 </div>
+
+
                 <table>
+
                     <thead>
+
                         <tr>
                             <th>ID</th>
+                            <th>Pedido</th>
                             <th>Cliente</th>
+                            <th>Producto</th>
                             <th>Repartidor</th>
                             <th>Dirección</th>
                             <th>Fecha entrega</th>
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
+
                     </thead>
-                    <tbody>
+
+
+                    <tbody id="tablaEntregas">
+
                         <tr>
-                            <td>1</td>
-                            <td>Mario Fernández</td>
-                            <td>Andrés Vargas</td>
-                            <td>Barrio Amón, SJ</td>
-                            <td>04/01/2025</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            <td colspan="9">
+                                Cargando entregas...
                             </td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Patricia Solano</td>
-                            <td>Andrés Vargas</td>
-                            <td>Curridabat Centro</td>
-                            <td>08/01/2025</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Roberto Jiménez</td>
-                            <td>Andrés Vargas</td>
-                            <td>Escazú, San Rafael</td>
-                            <td>11/01/2025</td>
-                            <td><span class="badge badge-pendiente">Pendiente</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Valeria Chaves</td>
-                            <td>Andrés Vargas</td>
-                            <td>Oriental, Cartago</td>
-                            <td>15/01/2025</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Diego Rojas</td>
-                            <td>Andrés Vargas</td>
-                            <td>Desamparados, SJ</td>
-                            <td>18/01/2025</td>
-                            <td><span class="badge badge-pendiente">Pendiente</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
+
                     </tbody>
+
                 </table>
+
             </div>
+
         </div>
+
     </div>
 
+
     <script src="js/sidebar.js"></script>
+
     <script>
-        document.getElementById('sidebar-container').innerHTML = cargarSidebar('entregas.html');
-        function mostrarFormulario()  { document.getElementById('formulario').style.display = 'block'; }
-        function ocultarFormulario() { document.getElementById('formulario').style.display = 'none';  }
+        document.getElementById(
+            "sidebar-container"
+        ).innerHTML =
+            cargarSidebar(
+                "entregas.html"
+            );
     </script>
+
+    <script src="js/entregas.js"></script>
+
 </body>
+
 </html>

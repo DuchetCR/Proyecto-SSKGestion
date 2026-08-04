@@ -5,6 +5,10 @@ require("dotenv").config();
 
 const usuariosRoutes = require("./routes/usuarios");
 const productosRoutes = require("./routes/productos");
+const pedidosRoutes = require("./routes/pedidos");
+const entregasRoutes = require("./routes/entregas");
+const pagosRoutes = require("./routes/pagos");
+const facturasRoutes = require("./routes/facturas");
 
 const {
     iniciarPool,
@@ -22,6 +26,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/usuarios", usuariosRoutes);
 app.use("/api/productos", productosRoutes);
+app.use("/api/pedidos", pedidosRoutes);
+app.use("/api/entregas", entregasRoutes);
+app.use("/api/pagos", pagosRoutes);
+app.use("/api/facturas", facturasRoutes);
 
 
 const frontendPath = path.join(__dirname, "../SSK_GUI");

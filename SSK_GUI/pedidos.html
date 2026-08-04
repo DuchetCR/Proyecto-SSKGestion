@@ -1,82 +1,292 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSK Gestión — Pedidos</title>
-    <link rel="stylesheet" href="css/ssk.css">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        SSK Gestión — Pedidos
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/ssk.css"
+    >
 </head>
+
 <body>
 
     <div id="sidebar-container"></div>
 
+
     <div class="main">
+
         <div class="topbar">
-            <h2>Pedidos</h2>
+
+            <h2>
+                Pedidos
+            </h2>
+
             <div class="usuario-info">
-                <div class="avatar">CM</div>
-                <span>Carlos Mora — Gerente General</span>
+
+                <div class="avatar">
+                    CM
+                </div>
+
+                <span>
+                    Carlos Mora — Gerente General
+                </span>
+
             </div>
+
         </div>
+
 
         <div class="content">
 
+            <!-- Mensajes -->
+            <div
+                id="mensajePedido"
+                style="display: none;"
+            ></div>
+
+
+            <!-- Buscar y nuevo pedido -->
             <div class="barra-busqueda">
-                <input type="text" placeholder="Buscar usuario...">
-                <button class="btn btn-primary" onclick="mostrarFormulario()"><i class="fas fa-plus"></i> Nuevo pedido</button>
+
+                <input
+                    id="buscarPedido"
+                    type="text"
+                    placeholder="Buscar pedido..."
+                >
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="mostrarFormularioPedido()"
+                >
+                    <i class="fas fa-plus"></i>
+                    Nuevo pedido
+                </button>
+
             </div>
 
-            <!-- Formulario nuevo pedido -->
-            <div id="formulario" style="display:none; margin-bottom:24px;">
+
+            <!-- Formulario -->
+            <div
+                id="formularioPedido"
+                style="
+                    display: none;
+                    margin-bottom: 24px;
+                "
+            >
+
                 <div class="form-card">
-                    <h3>Nuevo pedido</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Cliente</label>
-                            <select>
-                                <option>Mario Fernández Castro</option>
-                                <option>Patricia Solano Arias</option>
-                                <option>Roberto Jiménez Vega</option>
-                                <option>Valeria Chaves Quirós</option>
-                                <option>Diego Rojas Campos</option>
-                            </select>
+
+                    <h3 id="tituloFormularioPedido">
+                        Nuevo pedido
+                    </h3>
+
+
+                    <form id="formPedido">
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="clientePedido">
+                                    Cliente
+                                </label>
+
+                                <select
+                                    id="clientePedido"
+                                    required
+                                >
+                                    <option value="">
+                                        Cargando clientes...
+                                    </option>
+                                </select>
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="productoPedido">
+                                    Producto
+                                </label>
+
+                                <select
+                                    id="productoPedido"
+                                    required
+                                >
+                                    <option value="">
+                                        Cargando productos...
+                                    </option>
+                                </select>
+
+                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label>Producto</label>
-                            <select>
-                                <option>Jabón líquido industrial 5L</option>
-                                <option>Desinfectante multiusos 1L</option>
-                                <option>Guantes de látex caja x100</option>
-                                <option>Papel higiénico industrial x12</option>
-                                <option>Bolsas de basura negras x100</option>
-                            </select>
+
+
+                        <div
+                            style="
+                                display: flex;
+                                gap: 24px;
+                                margin-bottom: 18px;
+                                padding: 12px;
+                                background: #f7f7f7;
+                                border-radius: 6px;
+                            "
+                        >
+
+                            <div>
+                                <strong>
+                                    Precio unitario:
+                                </strong>
+
+                                <span id="precioProductoPedido">
+                                    ₡0
+                                </span>
+                            </div>
+
+
+                            <div>
+                                <strong>
+                                    Existencias:
+                                </strong>
+
+                                <span id="existenciasProductoPedido">
+                                    0
+                                </span>
+                            </div>
+
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Cantidad</label>
-                            <input type="number" placeholder="Ej: 10">
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="cantidadPedido">
+                                    Cantidad
+                                </label>
+
+                                <input
+                                    id="cantidadPedido"
+                                    type="number"
+                                    min="1"
+                                    step="1"
+                                    required
+                                    placeholder="Ej: 10"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="fechaPedido">
+                                    Fecha del pedido
+                                </label>
+
+                                <input
+                                    id="fechaPedido"
+                                    type="date"
+                                    required
+                                >
+
+                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label>Fecha del pedido</label>
-                            <input type="date">
+
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+
+                                <label for="estadoPedido">
+                                    Estado
+                                </label>
+
+                                <select
+                                    id="estadoPedido"
+                                    required
+                                >
+                                    <option value="3">
+                                        Pendiente
+                                    </option>
+
+                                    <option value="4">
+                                        Cancelado
+                                    </option>
+
+                                    <option value="5">
+                                        Completado
+                                    </option>
+                                </select>
+
+                            </div>
+
                         </div>
-                    </div>
-                    <div class="form-actions">
-                        <button class="btn btn-primary">Guardar</button>
-                        <button class="btn btn-outline" onclick="ocultarFormulario()">Cancelar</button>
-                    </div>
+
+
+                        <div class="form-actions">
+
+                            <button
+                                id="btnGuardarPedido"
+                                type="submit"
+                                class="btn btn-primary"
+                            >
+                                <i class="fas fa-save"></i>
+                                Guardar pedido
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="btn btn-outline"
+                                onclick="ocultarFormularioPedido()"
+                            >
+                                Cancelar
+                            </button>
+
+                        </div>
+
+                    </form>
+
                 </div>
+
             </div>
 
-            <!-- Tabla pedidos -->
+
+            <!-- Tabla -->
             <div class="tabla-card">
+
                 <div class="tabla-header">
-                    <h3>Lista de pedidos</h3>
+
+                    <h3>
+                        Lista de pedidos
+                    </h3>
+
                 </div>
+
+
                 <table>
+
                     <thead>
+
                         <tr>
                             <th>ID</th>
                             <th>Cliente</th>
@@ -87,74 +297,42 @@
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
+
                     </thead>
-                    <tbody>
+
+
+                    <tbody id="tablaPedidos">
+
                         <tr>
-                            <td>1</td><td>Mario Fernández</td>
-                            <td>Jabón líquido industrial 5L</td>
-                            <td>10</td><td>₡8.500</td>
-                            <td>03/01/2025</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                            <td colspan="8">
+                                Cargando pedidos...
                             </td>
                         </tr>
-                        <tr>
-                            <td>2</td><td>Patricia Solano</td>
-                            <td>Guantes de látex caja x100</td>
-                            <td>5</td><td>₡4.500</td>
-                            <td>07/01/2025</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>3</td><td>Roberto Jiménez</td>
-                            <td>Desinfectante multiusos 1L</td>
-                            <td>3</td><td>₡3.200</td>
-                            <td>10/01/2025</td>
-                            <td><span class="badge badge-pendiente">Pendiente</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>4</td><td>Valeria Chaves</td>
-                            <td>Papel higiénico industrial x12</td>
-                            <td>8</td><td>₡6.800</td>
-                            <td>14/01/2025</td>
-                            <td><span class="badge badge-completado">Completado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>5</td><td>Diego Rojas</td>
-                            <td>Bolsas de basura negras x100</td>
-                            <td>20</td><td>₡3.900</td>
-                            <td>17/01/2025</td>
-                            <td><span class="badge badge-cancelado">Cancelado</span></td>
-                            <td>
-                                <button class="btn btn-warning btn-sm"><i class="fas fa-pen"></i> Editar</button>
-                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
-                            </td>
-                        </tr>
+
                     </tbody>
+
                 </table>
+
             </div>
+
         </div>
+
     </div>
 
+
     <script src="js/sidebar.js"></script>
+
     <script>
-        document.getElementById('sidebar-container').innerHTML = cargarSidebar('pedidos.html');
-        function mostrarFormulario()  { document.getElementById('formulario').style.display = 'block'; }
-        function ocultarFormulario() { document.getElementById('formulario').style.display = 'none';  }
+        document.getElementById(
+            "sidebar-container"
+        ).innerHTML =
+            cargarSidebar(
+                "pedidos.html"
+            );
     </script>
+
+    <script src="js/pedidos.js"></script>
+
 </body>
+
 </html>
