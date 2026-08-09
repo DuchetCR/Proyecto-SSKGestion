@@ -856,48 +856,25 @@ if (buscarEntrega) {
             const entregasFiltradas =
                 entregasCargadas.filter(
                     function (entrega) {
+                        const cliente =
+                            String(
+                                entrega.cliente || ""
+                            ).toLowerCase();
+
+                        const producto =
+                            String(
+                                entrega.producto || ""
+                            ).toLowerCase();
+
+                        const repartidor =
+                            String(
+                                entrega.repartidor || ""
+                            ).toLowerCase();
+
                         return (
-                            String(
-                                entrega.idEntrega
-                            )
-                                .toLowerCase()
-                                .includes(texto) ||
-
-                            String(
-                                entrega.idPedido
-                            )
-                                .toLowerCase()
-                                .includes(texto) ||
-
-                            String(
-                                entrega.cliente
-                            )
-                                .toLowerCase()
-                                .includes(texto) ||
-
-                            String(
-                                entrega.producto
-                            )
-                                .toLowerCase()
-                                .includes(texto) ||
-
-                            String(
-                                entrega.repartidor
-                            )
-                                .toLowerCase()
-                                .includes(texto) ||
-
-                            String(
-                                entrega.direccion
-                            )
-                                .toLowerCase()
-                                .includes(texto) ||
-
-                            String(
-                                entrega.estado
-                            )
-                                .toLowerCase()
-                                .includes(texto)
+                            cliente.includes(texto) ||
+                            producto.includes(texto) ||
+                            repartidor.includes(texto)
                         );
                     }
                 );

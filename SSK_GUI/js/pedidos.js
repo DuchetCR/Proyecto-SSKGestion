@@ -858,30 +858,19 @@ if (buscarPedido) {
             const pedidosFiltrados =
                 pedidosCargados.filter(
                     function (pedido) {
+                        const cliente =
+                            String(
+                                pedido.cliente || ""
+                            ).toLowerCase();
+
+                        const producto =
+                            String(
+                                pedido.producto || ""
+                            ).toLowerCase();
+
                         return (
-                            String(
-                                pedido.idPedido
-                            )
-                                .toLowerCase()
-                                .includes(texto) ||
-
-                            String(
-                                pedido.cliente
-                            )
-                                .toLowerCase()
-                                .includes(texto) ||
-
-                            String(
-                                pedido.producto
-                            )
-                                .toLowerCase()
-                                .includes(texto) ||
-
-                            String(
-                                pedido.estado
-                            )
-                                .toLowerCase()
-                                .includes(texto)
+                            cliente.includes(texto) ||
+                            producto.includes(texto)
                         );
                     }
                 );

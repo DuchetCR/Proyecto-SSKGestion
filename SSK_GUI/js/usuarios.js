@@ -22,7 +22,15 @@ const botonGuardar =
 const tablaUsuarios =
     document.getElementById("tablaUsuarios");
 
+const buscarUsuario =
+    document.getElementById("buscarUsuario") ||
+    document.querySelector(
+        '.barra-busqueda input[placeholder*="Buscar usuario"]'
+    );
+
 let idUsuarioEditando = null;
+
+let usuariosCargados = [];
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -57,18 +65,12 @@ async function cargarUsuarios() {
             );
         }
 
-        tablaUsuarios.innerHTML = "";
+        usuariosCargados =
+            resultado.usuarios || [];
 
-        const usuarios = resultado.usuarios || [];
-
-        if (usuarios.length === 0) {
-            mostrarFilaSinUsuarios();
-            return;
-        }
-
-        usuarios.forEach(function (usuario) {
-            agregarUsuarioTabla(usuario);
-        });
+        mostrarUsuariosEnTabla(
+            usuariosCargados
+        );
     } catch (error) {
         console.error(
             "Error al cargar los usuarios:",
@@ -82,6 +84,67 @@ async function cargarUsuarios() {
         );
     }
 }
+
+function mostrarUsuariosEnTabla(usuarios) {
+    if (!tablaUsuarios) {
+        return;
+    }
+
+    tablaUsuarios.innerHTML = "";
+
+    if (usuarios.length === 0) {
+        mostrarFilaSinUsuarios();
+        return;
+    }
+
+    usuarios.forEach(function (usuario) {
+        agregarUsuarioTabla(usuario);
+    });
+}
+
+
+if (buscarUsuario) {
+    buscarUsuario.addEventListener(
+        "input",
+        function () {
+            const texto =
+                buscarUsuario.value
+                    .trim()
+                    .toLowerCase();
+
+            if (!texto) {
+                mostrarUsuariosEnTabla(
+                    usuariosCargados
+                );
+
+                return;
+            }
+
+            const usuariosFiltrados =
+                usuariosCargados.filter(
+                    function (usuario) {
+                        const nombreCompleto = [
+                            usuario.nombre,
+                            usuario.primerApellido,
+                            usuario.segundoApellido
+                        ]
+                            .filter(Boolean)
+                            .join(" ")
+                            .toLowerCase();
+
+                        return nombreCompleto.includes(
+                            texto
+                        );
+                    }
+                );
+
+            mostrarUsuariosEnTabla(
+                usuariosFiltrados
+            );
+        }
+    );
+}
+
 
 if (tipoUsuario) {
     tipoUsuario.addEventListener("change", function () {
@@ -855,4 +918,3 @@ function escaparHTML(valor) {
 
     return elemento.innerHTML;
 }
-

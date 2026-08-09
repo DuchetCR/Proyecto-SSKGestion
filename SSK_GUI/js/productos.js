@@ -55,6 +55,13 @@ const estadoProducto =
 
 
 let idProductoEditando = null;
+const buscarProducto =
+    document.getElementById("buscarProducto") ||
+    document.querySelector(
+        '.barra-busqueda input[placeholder*="Buscar producto"]'
+    );
+
+
 let productosCargados = [];
 
 
@@ -142,6 +149,42 @@ function mostrarProductosEnTabla(
         function (producto) {
             agregarProductoTabla(
                 producto
+            );
+        }
+    );
+}
+
+
+if (buscarProducto) {
+    buscarProducto.addEventListener(
+        "input",
+        function () {
+            const texto =
+                buscarProducto.value
+                    .trim()
+                    .toLowerCase();
+
+            if (!texto) {
+                mostrarProductosEnTabla(
+                    productosCargados
+                );
+
+                return;
+            }
+
+            const productosFiltrados =
+                productosCargados.filter(
+                    function (producto) {
+                        return String(
+                            producto.nombre || ""
+                        )
+                            .toLowerCase()
+                            .includes(texto);
+                    }
+                );
+
+            mostrarProductosEnTabla(
+                productosFiltrados
             );
         }
     );

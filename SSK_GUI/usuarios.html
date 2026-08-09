@@ -15,15 +15,29 @@
         <div class="topbar">
             <h2>Usuarios</h2>
             <div class="usuario-info">
-                <div class="avatar">CM</div>
-                <span>Carlos Mora — Gerente General</span>
+
+                <div class="avatar">
+                    CM
+                </div>
+
+                <div class="usuario-datos">
+                    <span>
+                        Carlos Mora — Gerente General
+                    </span>
+
+                    <a href="login.html" class="btn-cerrar-sesion">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Cerrar sesión
+                    </a>
+                </div>
+
             </div>
         </div>
 
         <div class="content">
 
             <div class="barra-busqueda">
-                <input type="text" placeholder="Buscar usuario...">
+                <input id="buscarusuario" type="text" placeholder="Buscar usuario...">
                 <button class="btn btn-primary" onclick="mostrarFormulario()"><i class="fas fa-plus"></i> Nuevo usuario</button>
             </div>
 

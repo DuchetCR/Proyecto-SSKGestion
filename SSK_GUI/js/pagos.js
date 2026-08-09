@@ -936,76 +936,49 @@ function ocultarFormularioPago() {
 }
 
 
-buscarPago.addEventListener(
-    "input",
-    function () {
-        const texto =
-            buscarPago.value
-                .trim()
-                .toLowerCase();
+if (buscarPago) {
+    buscarPago.addEventListener(
+        "input",
+        function () {
+            const texto =
+                buscarPago.value
+                    .trim()
+                    .toLowerCase();
 
-        if (!texto) {
+            if (!texto) {
+                mostrarPagosEnTabla(
+                    pagosCargados
+                );
+
+                return;
+            }
+
+            const pagosFiltrados =
+                pagosCargados.filter(
+                    function (pago) {
+                        const cliente =
+                            String(
+                                pago.cliente || ""
+                            ).toLowerCase();
+
+                        const producto =
+                            String(
+                                pago.producto || ""
+                            ).toLowerCase();
+
+                        return (
+                            cliente.includes(texto) ||
+                            producto.includes(texto)
+                        );
+                    }
+                );
+
             mostrarPagosEnTabla(
-                pagosCargados
+                pagosFiltrados
             );
-
-            return;
         }
-
-        const pagosFiltrados =
-            pagosCargados.filter(
-                function (pago) {
-                    return (
-                        String(
-                            pago.idPago
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            pago.idPedido
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            pago.cliente || ""
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            pago.producto || ""
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            pago.metodoPago || ""
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            pago.monto
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            pago.estado || ""
-                        )
-                            .toLowerCase()
-                            .includes(texto)
-                    );
-                }
-            );
-
-        mostrarPagosEnTabla(
-            pagosFiltrados
-        );
-    }
-);
+    );
+}
 
 
 function bloquearBotonPago(

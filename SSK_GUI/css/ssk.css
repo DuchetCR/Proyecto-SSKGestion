@@ -43,9 +43,20 @@ body {
     z-index: 100;
 }
 
+.sidebar-logo-link {
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.sidebar-logo-link:hover .sidebar-logo {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
 .sidebar-logo {
     padding: 24px 20px 20px;
     border-bottom: 1px solid rgba(255,255,255,0.1);
+    transition: background-color 0.2s ease;
 }
 
 .sidebar-logo h1 {

@@ -884,82 +884,49 @@ function establecerFechaFacturaActual() {
 }
 
 
-buscarFactura.addEventListener(
-    "input",
-    function () {
-        const texto =
-            buscarFactura.value
-                .trim()
-                .toLowerCase();
+if (buscarFactura) {
+    buscarFactura.addEventListener(
+        "input",
+        function () {
+            const texto =
+                buscarFactura.value
+                    .trim()
+                    .toLowerCase();
 
-        if (!texto) {
+            if (!texto) {
+                mostrarFacturasEnTabla(
+                    facturasCargadas
+                );
+
+                return;
+            }
+
+            const facturasFiltradas =
+                facturasCargadas.filter(
+                    function (factura) {
+                        const cliente =
+                            String(
+                                factura.cliente || ""
+                            ).toLowerCase();
+
+                        const producto =
+                            String(
+                                factura.producto || ""
+                            ).toLowerCase();
+
+                        return (
+                            cliente.includes(texto) ||
+                            producto.includes(texto)
+                        );
+                    }
+                );
+
             mostrarFacturasEnTabla(
-                facturasCargadas
+                facturasFiltradas
             );
-
-            return;
         }
-
-        const facturasFiltradas =
-            facturasCargadas.filter(
-                function (factura) {
-                    return (
-                        String(
-                            factura.idFactura
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            factura.idPedido
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            factura.idPago
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            factura.cliente || ""
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            factura.producto || ""
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            factura.metodoPago || ""
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            factura.total
-                        )
-                            .toLowerCase()
-                            .includes(texto) ||
-
-                        String(
-                            factura.estado || ""
-                        )
-                            .toLowerCase()
-                            .includes(texto)
-                    );
-                }
-            );
-
-        mostrarFacturasEnTabla(
-            facturasFiltradas
-        );
-    }
-);
+    );
+}
 
 
 function bloquearBotonFactura(
