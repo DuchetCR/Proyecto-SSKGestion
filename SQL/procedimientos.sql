@@ -136,16 +136,18 @@ end insertar_inventario;
 
 -- 7. Insertar un pedido
 create or replace procedure insertar_pedido (
-    p_id_pedido       in number,
-    p_id_usuario      in number,
-    p_id_estado       in number,
-    p_fecha_pedido    in date,
-    p_cantidad        in number,
-    p_precio_unitario in number
+    p_id_pedido         in number,
+    p_id_usuario        in number,
+    p_id_estado         in number,
+    p_fecha_pedido      in date,
+    p_cantidad          in number,
+    p_precio_unitario   in number,
+    p_id_detalle_pedido in number,
+    p_id_producto       in number
 )
 as
 begin
-
+ 
     insert into PEDIDO (
         id_pedido, id_usuario, id_estado,
         fecha_pedido, cantidad, precio_unitario
@@ -154,13 +156,19 @@ begin
         p_id_pedido, p_id_usuario, p_id_estado,
         p_fecha_pedido, p_cantidad, p_precio_unitario
     );
-
+ 
+    insert into DETALLE_PEDIDO (
+        id_detalle_pedido, id_pedido, id_producto, id_estado, cantidad
+    )
+    values (
+        p_id_detalle_pedido, p_id_pedido, p_id_producto, p_id_estado, p_cantidad
+    );
+ 
     commit;
     dbms_output.put_line('Pedido ' || p_id_pedido || ' insertado correctamente.');
-
+ 
 end insertar_pedido;
 /
-
 
 -- 8. Insertar un pago
 create or replace procedure insertar_pago (

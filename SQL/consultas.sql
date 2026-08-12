@@ -6,7 +6,7 @@ select id_usuario,
        nombre,
        primer_apellido,
        segundo_apellido
-from   USUARIO
+from   USUARIO;
 where  id_estado = 1;
 
 
