@@ -165,7 +165,6 @@ async function guardarProducto(req, res) {
         const idInventario =
             resultadoIds.rows[0].idInventario;
 
-     
         const idUsuario = 1;
 
         await conexion.execute(
@@ -211,14 +210,13 @@ async function guardarProducto(req, res) {
             VALUES (
                 :idInventario,
                 :idProducto,
-                :estado,
+                1,
                 :cantidad
             )
             `,
             {
                 idInventario,
                 idProducto,
-                estado,
                 cantidad
             },
             {
@@ -375,7 +373,6 @@ async function editarProducto(req, res) {
                 }
             );
 
-        
         if (
             resultadoInventario.rowsAffected === 0
         ) {

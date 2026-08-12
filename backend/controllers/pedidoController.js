@@ -1,22 +1,13 @@
 const { obtenerConexion } = require("../config/db");
 
-
 function validarPedido(datos) {
-    const idUsuario = Number(
-        datos.idUsuario
-    );
+    const idUsuario = Number(datos.idUsuario);
 
-    const idProducto = Number(
-        datos.idProducto
-    );
+    const idProducto = Number(datos.idProducto);
 
-    const cantidad = Number(
-        datos.cantidad
-    );
+    const cantidad = Number(datos.cantidad);
 
-    const idEstado = Number(
-        datos.idEstado
-    );
+    const idEstado = Number(datos.idEstado);
 
     const fechaPedido = datos.fechaPedido
         ? String(datos.fechaPedido).trim()
@@ -225,10 +216,7 @@ async function listarClientes(req, res) {
 }
 
 
-async function listarProductosPedido(
-    req,
-    res
-) {
+async function listarProductosPedido(req, res) {
     let conexion;
 
     try {
@@ -293,9 +281,8 @@ async function guardarPedido(req, res) {
             req.body
         );
 
-        const validacion = validarPedido(
-            req.body
-        );
+        const validacion =
+            validarPedido(req.body);
 
         if (validacion.error) {
             return res.status(400).json({
@@ -314,7 +301,9 @@ async function guardarPedido(req, res) {
 
         conexion = await obtenerConexion();
 
-        
+
+        // VALIDAR CLIENTE
+
         const resultadoCliente =
             await conexion.execute(
                 `
@@ -343,14 +332,18 @@ async function guardarPedido(req, res) {
             });
         }
 
-        
+
+        // VALIDAR PRODUCTO Y EXISTENCIAS
+
         const resultadoProducto =
             await conexion.execute(
                 `
                 SELECT
                     P.PRECIO AS "precio",
-                    NVL(I.CANTIDAD, 0)
-                        AS "existencias"
+                    NVL(
+                        I.CANTIDAD,
+                        0
+                    ) AS "existencias"
 
                 FROM PRODUCTO P
 
@@ -379,14 +372,17 @@ async function guardarPedido(req, res) {
             });
         }
 
-        const precioUnitario = Number(
-            resultadoProducto.rows[0].precio
-        );
+        const precioUnitario =
+            Number(
+                resultadoProducto.rows[0]
+                    .precio
+            );
 
-        const existencias = Number(
-            resultadoProducto.rows[0]
-                .existencias
-        );
+        const existencias =
+            Number(
+                resultadoProducto.rows[0]
+                    .existencias
+            );
 
         if (cantidad > existencias) {
             return res.status(400).json({
@@ -396,7 +392,9 @@ async function guardarPedido(req, res) {
             });
         }
 
-       
+
+        // OBTENER IDS
+
         const resultadoIds =
             await conexion.execute(`
                 SELECT
@@ -422,12 +420,14 @@ async function guardarPedido(req, res) {
             `);
 
         const idPedido =
-            resultadoIds.rows[0].idPedido;
+            resultadoIds.rows[0]
+                .idPedido;
 
         const idDetallePedido =
             resultadoIds.rows[0]
                 .idDetallePedido;
 
+        // INSERTAR PEDIDO
         await conexion.execute(
             `
             INSERT INTO PEDIDO (
@@ -462,6 +462,16 @@ async function guardarPedido(req, res) {
                 autoCommit: false
             }
         );
+        // INSERTAR DETALLE DEL PEDIDO
+        console.log(
+            "Cantidad que se va a insertar en DETALLE_PEDIDO:",
+            cantidad
+        );
+
+        console.log(
+            "Tipo de dato:",
+            typeof cantidad
+        );
 
         await conexion.execute(
             `
@@ -469,27 +479,32 @@ async function guardarPedido(req, res) {
                 ID_DETALLE_PEDIDO,
                 ID_PEDIDO,
                 ID_PRODUCTO,
-                ID_ESTADO
+                ID_ESTADO,
+                CANTIDAD
             )
             VALUES (
                 :idDetallePedido,
                 :idPedido,
                 :idProducto,
-                :idEstado
+                :idEstado,
+                :cantidad
             )
             `,
             {
                 idDetallePedido,
                 idPedido,
                 idProducto,
-                idEstado
+                idEstado,
+                cantidad
             },
             {
                 autoCommit: false
             }
         );
+        // CONFIRMAR TRANSACCIÓN
 
         await conexion.commit();
+
 
         return res.status(201).json({
             correcto: true,
@@ -511,6 +526,16 @@ async function guardarPedido(req, res) {
             error
         );
 
+        console.error(
+            "Código Oracle:",
+            error.errorNum
+        );
+
+        console.error(
+            "Mensaje:",
+            error.message
+        );
+
         if (conexion) {
             try {
                 await conexion.rollback();
@@ -530,6 +555,7 @@ async function guardarPedido(req, res) {
             codigoOracle:
                 error.errorNum || null
         });
+
     } finally {
         if (conexion) {
             try {
@@ -549,9 +575,8 @@ async function editarPedido(req, res) {
     let conexion;
 
     try {
-        const idPedido = Number(
-            req.params.id
-        );
+        const idPedido =
+            Number(req.params.id);
 
         if (
             !Number.isInteger(idPedido) ||
@@ -564,9 +589,8 @@ async function editarPedido(req, res) {
             });
         }
 
-        const validacion = validarPedido(
-            req.body
-        );
+        const validacion =
+            validarPedido(req.body);
 
         if (validacion.error) {
             return res.status(400).json({
@@ -583,9 +607,12 @@ async function editarPedido(req, res) {
             idEstado
         } = validacion.pedido;
 
-        conexion = await obtenerConexion();
+        conexion =
+            await obtenerConexion();
 
-        
+
+        // VALIDAR CLIENTE
+
         const resultadoCliente =
             await conexion.execute(
                 `
@@ -614,58 +641,58 @@ async function editarPedido(req, res) {
             });
         }
 
-        
-        const resultadoProducto =
-            await conexion.execute(
-                `
-                SELECT
-                    P.PRECIO AS "precio",
-                    NVL(I.CANTIDAD, 0)
-                        AS "existencias"
 
-                FROM PRODUCTO P
+     // ==========================================
+// VALIDAR PRODUCTO Y EXISTENCIAS
+// ==========================================
 
-                LEFT JOIN INVENTARIO I
-                    ON I.ID_PRODUCTO =
-                       P.ID_PRODUCTO
+const resultadoDetalleActual =
+    await conexion.execute(
+        `
+        SELECT ID_PRODUCTO AS "idProducto", CANTIDAD AS "cantidad"
+        FROM DETALLE_PEDIDO
+        WHERE ID_PEDIDO = :idPedido
+          AND ID_ESTADO <> 6
+        `,
+        { idPedido }
+    );
 
-                WHERE P.ID_PRODUCTO =
-                      :idProducto
+const detalleActual = resultadoDetalleActual.rows[0] || null;
 
-                  AND P.ID_ESTADO = 1
-                `,
-                {
-                    idProducto
-                }
-            );
+const resultadoProducto = await conexion.execute(
+    `
+    SELECT P.PRECIO AS "precio", NVL(I.CANTIDAD, 0) AS "existencias"
+    FROM PRODUCTO P
+    LEFT JOIN INVENTARIO I ON I.ID_PRODUCTO = P.ID_PRODUCTO
+    WHERE P.ID_PRODUCTO = :idProducto AND P.ID_ESTADO = 1
+    `,
+    { idProducto }
+);
 
-        if (
-            resultadoProducto.rows.length ===
-            0
-        ) {
-            return res.status(400).json({
-                correcto: false,
-                mensaje:
-                    "El producto seleccionado no existe o está inactivo."
-            });
-        }
+if (resultadoProducto.rows.length === 0) {
+    return res.status(400).json({
+        correcto: false,
+        mensaje: "El producto seleccionado no existe o está inactivo."
+    });
+}
 
-        const precioUnitario = Number(
-            resultadoProducto.rows[0].precio
-        );
+const precioUnitario = Number(resultadoProducto.rows[0].precio);
+let existencias = Number(resultadoProducto.rows[0].existencias);
 
-        const existencias = Number(
-            resultadoProducto.rows[0]
-                .existencias
-        );
+// Si el pedido ya tenía reservado stock de este mismo producto,
+// esa cantidad cuenta como "disponible" para la edición.
+if (detalleActual && detalleActual.idProducto === idProducto) {
+    existencias += Number(detalleActual.cantidad) || 0;
+}
 
-        if (cantidad > existencias) {
-            return res.status(400).json({
-                correcto: false,
-                mensaje:
-                    `No hay suficientes existencias. Disponible: ${existencias}.`
-            });
-        }
+if (cantidad > existencias) {
+    return res.status(400).json({
+        correcto: false,
+        mensaje: `No hay suficientes existencias. Disponible: ${existencias}.`
+    });
+}
+
+        // ACTUALIZAR PEDIDO
 
         const resultadoPedido =
             await conexion.execute(
@@ -721,6 +748,7 @@ async function editarPedido(req, res) {
             });
         }
 
+        // ACTUALIZAR DETALLE
         const resultadoDetalle =
             await conexion.execute(
                 `
@@ -730,7 +758,10 @@ async function editarPedido(req, res) {
                         :idProducto,
 
                     ID_ESTADO =
-                        :idEstado
+                        :idEstado,
+
+                    CANTIDAD =
+                        :cantidad
 
                 WHERE ID_PEDIDO =
                       :idPedido
@@ -740,6 +771,7 @@ async function editarPedido(req, res) {
                 {
                     idProducto,
                     idEstado,
+                    cantidad,
                     idPedido
                 },
                 {
@@ -747,7 +779,9 @@ async function editarPedido(req, res) {
                 }
             );
 
-        
+
+        // CREAR DETALLE SI NO EXISTE
+
         if (
             resultadoDetalle.rowsAffected ===
             0
@@ -776,20 +810,23 @@ async function editarPedido(req, res) {
                     ID_DETALLE_PEDIDO,
                     ID_PEDIDO,
                     ID_PRODUCTO,
-                    ID_ESTADO
+                    ID_ESTADO,
+                    CANTIDAD
                 )
                 VALUES (
                     :idDetallePedido,
                     :idPedido,
                     :idProducto,
-                    :idEstado
+                    :idEstado,
+                    :cantidad
                 )
                 `,
                 {
                     idDetallePedido,
                     idPedido,
                     idProducto,
-                    idEstado
+                    idEstado,
+                    cantidad
                 },
                 {
                     autoCommit: false
@@ -797,6 +834,7 @@ async function editarPedido(req, res) {
             );
         }
 
+        // CONFIRMAR CAMBIOS
         await conexion.commit();
 
         return res.status(200).json({
@@ -813,6 +851,7 @@ async function editarPedido(req, res) {
                 idEstado
             }
         });
+
     } catch (error) {
         console.error(
             "Error al editar pedido:",
@@ -857,9 +896,8 @@ async function eliminarPedido(req, res) {
     let conexion;
 
     try {
-        const idPedido = Number(
-            req.params.id
-        );
+        const idPedido =
+            Number(req.params.id);
 
         if (
             !Number.isInteger(idPedido) ||
@@ -872,13 +910,17 @@ async function eliminarPedido(req, res) {
             });
         }
 
-        conexion = await obtenerConexion();
+        conexion =
+            await obtenerConexion();
 
-      
+
+        // ELIMINAR LÓGICAMENTE EL DETALLE
+
         await conexion.execute(
             `
             UPDATE DETALLE_PEDIDO
             SET ID_ESTADO = 6
+
             WHERE ID_PEDIDO = :idPedido
             `,
             {
@@ -889,7 +931,9 @@ async function eliminarPedido(req, res) {
             }
         );
 
-        
+
+        // ELIMINAR LÓGICAMENTE EL PEDIDO
+
         const resultado =
             await conexion.execute(
                 `
@@ -907,7 +951,8 @@ async function eliminarPedido(req, res) {
             );
 
         if (
-            resultado.rowsAffected === 0
+            resultado.rowsAffected ===
+            0
         ) {
             await conexion.rollback();
 
@@ -918,6 +963,7 @@ async function eliminarPedido(req, res) {
             });
         }
 
+        // CONFIRMAR
         await conexion.commit();
 
         return res.status(200).json({
